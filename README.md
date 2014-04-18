@@ -1,0 +1,4 @@
+haskell
+=======
+
+Spring Haskell hw 
