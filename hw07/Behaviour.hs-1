@@ -1,0 +1,30 @@
+import  Control.Monad (forever)
+
+-- Реализуйте runBehaviour
+-- (1 балл)
+
+data Request  = Get           | Put String
+data Response = Result String | OK
+
+type Behaviour = [Response] -> [Request]
+
+prog :: Behaviour
+prog ~(OK : x : xs) = Put "more? " : Get : case x of
+    Result "no" -> []
+    Result "yes" -> prog xs
+    _ -> Put "yes or no!" : prog (tail xs)
+ 
+runBehaviour :: Behaviour -> IO ()
+runBehaviour b = (\args -> progCall 1 args $ b args) []
+	where progCall offset resp req = case req of
+		[] -> return ()
+		(Get : xs) -> do
+			line <- getLine
+			(\r -> progCall (offset + 1) r $ b r)) ([Result line])
+		(Put s : xs) -> do
+			putStrLn s
+			(\r -> progCall (offset + 1) r $ b r)) ([OK])
+
+
+main :: IO ()
+main = runBehaviour prog
