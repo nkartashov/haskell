@@ -44,7 +44,7 @@ instance Applicative Parser where
 instance Alternative Parser where
 -- (0.5 балла)
 	empty = Parser (\s -> Nothing)
-    -- (0.5 балла)
+-- (0.5 балла)
 	lp <|> rp = Parser (\s -> case runParser lp s of
 		Nothing -> runParser rp s
 		Just v -> Just v)

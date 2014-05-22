@@ -71,7 +71,7 @@ main :: IO ()
 main = do
 	args <- getArgs
  	let phs = read $ head args :: Int
-	forks <- replicateM phs (newTVarIO False)
+	forks <- replicateM phs $ newTVarIO False
 	let numforks = zip [0..] forks 
-	forM_ [0..(pred phs)] (\n -> forkIO $ philosopher (output n) (numforks !! n) $ numforks !! ((succ n) `mod` phs))
+	forM_ [0..(pred phs)] $ \n -> forkIO $ philosopher (output n) (numforks !! n) $ numforks !! ((succ n) `mod` phs)
 	forever delay

@@ -12,8 +12,8 @@ import StateIO
 
 -- Эти instance можно реализовать, используя реализацию MonadState
 instance MonadReader s (StateIO s) where
-    ask = undefined
-    local = undefined
+    ask = get 
+    local f = undefined
 
 instance Monoid s => MonadWriter s (StateIO s) where
     tell w = undefined
